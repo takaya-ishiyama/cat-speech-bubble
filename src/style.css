@@ -45,7 +45,11 @@ h1 {
   letter-spacing: -0.07em;
 }
 
-h1 span { color: #e46f36; }
+h1 span {
+  display: inline-block;
+  margin-top: 0.08em;
+  color: #e46f36;
+}
 
 .lead {
   max-width: 560px;
