@@ -20,19 +20,30 @@ const captions = [
   "なんか忘れてない？"
 ];
 
-const input = document.querySelector<HTMLInputElement>("#photoInput");
-const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
-const emptyState = document.querySelector<HTMLElement>("#emptyState");
-const rerollButton = document.querySelector<HTMLButtonElement>("#rerollButton");
-const downloadButton = document.querySelector<HTMLButtonElement>("#downloadButton");
-const dropZone = document.querySelector<HTMLElement>("#dropZone");
-
-if (!input || !canvas || !emptyState || !rerollButton || !downloadButton || !dropZone) {
-  throw new Error("Required UI element was not found.");
+function getRequiredElement<T extends Element>(selector: string): T {
+  const element = document.querySelector<T>(selector);
+  if (!element) {
+    throw new Error(`Required UI element was not found: ${selector}`);
+  }
+  return element;
 }
 
-const context = canvas.getContext("2d");
-if (!context) throw new Error("Canvas is not supported by this browser.");
+const input = getRequiredElement<HTMLInputElement>("#photoInput");
+const canvas = getRequiredElement<HTMLCanvasElement>("#canvas");
+const emptyState = getRequiredElement<HTMLElement>("#emptyState");
+const rerollButton = getRequiredElement<HTMLButtonElement>("#rerollButton");
+const downloadButton = getRequiredElement<HTMLButtonElement>("#downloadButton");
+const dropZone = getRequiredElement<HTMLElement>("#dropZone");
+
+function getCanvasContext(canvasElement: HTMLCanvasElement): CanvasRenderingContext2D {
+  const canvasContext = canvasElement.getContext("2d");
+  if (!canvasContext) {
+    throw new Error("Canvas is not supported by this browser.");
+  }
+  return canvasContext;
+}
+
+const context = getCanvasContext(canvas);
 
 let sourceImage: HTMLImageElement | null = null;
 let previousCaption = "";
